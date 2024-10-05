@@ -1,32 +1,40 @@
 import random
 import math
+import scipy.stats
+import constants as c
 
-class MonteCarlo:
+class MonteCarloSimulation:
     def __init__(self, stock_value, strike, volatility):
+        # class vars for GBM
         self.stock_value = stock_value
-        self.risk_free_interest = 0.0396 # 10 year treasury
-        self.strike = strike # just one value for sim
-        self.sigma = volatility # volatility
-        self.delta_time = 1 # time in years
+        self.risk_free_interest = c.RISK_FREE_INTEREST 
+        self.strike = strike 
+        self.sigma = volatility 
+        self.delta_time = c.DELTA_TIME 
 
-    # Geometric Brownian Motion
-    def GBM(self):
+    def Geometric_Brownian_Motion(self):
         gaussian = random.gauss(0, 1)
 
-        exponent = math.e ** ((self.risk_free_interest - (self.sigma ** 2) / 2) * self.delta_time
-        + self.sigma * math.sqrt(self.delta_time) * gaussian) 
+        exponent = ((self.risk_free_interest - 0.5 * self.sigma ** 2) 
+                    * self.delta_time + self.sigma * math.sqrt(self.delta_time) * gaussian)
 
-        st_delta_t = self.stock_value * exponent
+        st_delta_t = self.stock_value * math.exp(exponent)
+
         return st_delta_t
-    
 
-    def black_sholes():
-        pass
+    def Black_Scholes(self, option_type="call"):
+        N = scipy.stats.norm.cdf
 
-def main():
-    m = MonteCarlo(45.76, 45, .015)
-    m = m.GBM()
-    print(m)
+        d1 = (math.log(self.stock_value / self.strike) + (self.risk_free_interest 
+            + 0.5 * self.sigma ** 2) * self.delta_time) / (self.sigma * math.sqrt(self.delta_time))
+        d2 = d1 - self.sigma * math.sqrt(self.delta_time)
 
-if __name__ == "__main__":
-    main()
+        if option_type == "call":
+            cost = self.stock_value * N(d1) - self.strike * math.exp(-self.risk_free_interest * self.delta_time) * N(d2)
+        elif option_type == "put":
+            cost = self.strike * math.exp(-self.risk_free_interest * self.delta_time) * N(-d2) - self.stock_value * N(-d1)
+        else:
+            raise ValueError
+        
+        return cost
+

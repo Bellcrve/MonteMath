@@ -1,0 +1,2 @@
+RISK_FREE_INTEREST = .0396 # 10 year treasury
+DELTA_TIME = 1
