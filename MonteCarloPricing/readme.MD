@@ -1,8 +1,4 @@
-# Monte Carlo
-
-[Monte Carlo Simulator ](https://github.com/yalehacks)
-
-# setup
+# Monte Carlo Pip Setup
 
 pip install using:
 
@@ -16,7 +12,7 @@ import the module using:
 from montecarlo.MonteCarloSimulation import MonteCarloSimulation
 ```
 
-classes: $\\$
+classes:
 
 ```python
 class MonteCarloSimulation:
@@ -32,10 +28,13 @@ def __init__(self, stock_value, strike, volatility):
         self.sigma = volatility
         self.delta_time = DELTA_TIME
         self.T = TIME
+        self.steps = steps
+        self.simulations = simulations
+        self.payoffs = []
 ```
 
 ```python
-def Geometric_Brownian_Motion(self, option_type="call")
+def Geometric_Brownian_Motion(self, option_type="call"):
 ```
 
 ```python

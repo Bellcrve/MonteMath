@@ -1,7 +1,6 @@
 import random
 import math
 import scipy.stats
-import matplotlib.pyplot as plt
 
 RISK_FREE_INTEREST = .03969 # 10 year treasury
 DELTA_TIME = 1 # time to exp / TIME
@@ -37,11 +36,11 @@ class MonteCarloSimulation:
             payoff = max(self.strike - st_delta_t_sum, 0)
         else:
             raise ValueError 
-
         self.payoffs.append(payoff)
 
         # option_price = math.exp(-self.risk_free_interest * self.T) * payoff
         # return option_price
+
 
     def Black_Scholes(self, option_type="call".lower()):
         N = scipy.stats.norm.cdf
@@ -59,3 +58,10 @@ class MonteCarloSimulation:
         
         return cost
 
+
+def main():
+    sim = MonteCarloSimulation(45, 46, .013, 252, 1000)
+    sim.Geometric_Brownian_Motion()
+
+if __name__ == "__main__":
+    main()

@@ -7,7 +7,7 @@ README = (HERE / "readme.md").read_text(encoding="utf-8")
 
 setup(
     name="mc-option-simulator-yale",
-    version="0.0.7",
+    version="0.0.8",
     packages=find_packages(where="src"),  
     package_dir={"": "src"},  
     entry_points={
